@@ -16,6 +16,11 @@ ARG DEBUG
 # Set environment variable based on the build argument
 ENV DEBUG=${DEBUG}
 
+# Install build dependencies for psycopg2
+RUN apt-get update && apt-get install -y \
+    libpq-dev gcc \
+    && rm -rf /var/lib/apt/lists/*
+
 # Copy pyproject.toml and lockfile first for better caching
 COPY ./cognee-mcp/pyproject.toml ./cognee-mcp/uv.lock ./cognee-mcp/entrypoint.sh ./
 
